@@ -9,29 +9,7 @@ namespace ruletka
         {
             try
             {
-                var msg = $@"Здрасьте! Представьтесь пожалуйста:";
-                Console.Out.WriteLine("-----\n\t\t{0}\n------\n", msg);
-
-
-                var inputName = "";
-
-                while (String.IsNullOrWhiteSpace(inputName))
-                {
-                    inputName = Console.In.ReadLine();
-                    if (inputName == null)
-                    {
-                        continue;
-                    }
-
-                    inputName = inputName.Trim();
-                    inputName = new string(inputName.Where(c => Char.IsLetter(c)).ToArray());
-
-                    if (inputName.Length < Constants.PlayerNameMin)
-                    {
-                        Console.Out.WriteLine("Имя не может быть короче {0} букв!", Constants.PlayerNameMin.ToString());
-                        inputName = "";
-                    }
-                }
+                var inputName = GetPlayerName();
 
                 var player = new Player(inputName);
 
@@ -39,28 +17,71 @@ namespace ruletka
                 Console.Out.WriteLine("Угадайте число от {0:D} до {1:D} и выигайте полцарства!", Constants.RangeFrom, Constants.RangeTo);
 
                 var secretNumber = new Random().Next(Constants.RangeFrom, Constants.RangeTo);
-
+                var tryCount = 0;
                 do
                 {
                     int playerNumber = ReadNumber();
+                    tryCount++;
                     if (secretNumber.Equals(playerNumber))
                     {
                         break;
                     }
 
                     Console.Out.WriteLine("Неа, не угадал, давай еще разок!");
+                    string hint = secretNumber.CompareTo(playerNumber) == -1 ? "меньше" : "больше";
+
+                    Console.Out.WriteLine($"Подсказка: загаданное число {hint}");
+
                     Console.Out.WriteLine("Угадайте число от {0:D} до {1:D} и выигайте полцарства!", Constants.RangeFrom, Constants.RangeTo);
                 } while (true);
 
-
-                Console.Out.WriteLine("Урашечки! Угадал, это действительно {0}\n", secretNumber.ToString());
+                string declension = DeclensionGenerate(tryCount, "попытку", "попытки", "попыток");
+                string sn = secretNumber.ToString();
+                Console.Out.WriteLine($"Урашечки! Угадал, это действительно {sn}! Угадал всего за {tryCount} {declension}!\n ");
                 Console.Out.WriteLine("Всё, пока!");
+                Console.In.ReadLine();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        private static string GetPlayerName()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.BackgroundColor = ConsoleColor.Black;
+            string inputName;
+            do
+            {
+                var msg = $@"Представьтесь пожалуйста:";
+                Console.Out.WriteLine("-----\n\t\t{0}\n------\n", msg);
+
+                inputName = Console.In.ReadLine();
+                Console.Clear();
+                if (string.IsNullOrWhiteSpace(inputName))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Разве это имя ...");
+                    continue;
+                }
+
+                inputName = new string(inputName.Trim().Where(char.IsLetter).ToArray());
+
+                if (inputName.Length < Constants.PlayerNameMin)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Out.WriteLine("Имя не может быть короче {0} букв!", Constants.PlayerNameMin.ToString());
+                }
+                else
+                {
+                    break;
+                }
+            } while (true);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            return inputName;
         }
 
         private static int ReadNumber()
@@ -94,33 +115,19 @@ namespace ruletka
             return number;
         }
 
-        private static string ReadNumberByChar()
+        /// <summary>
+        /// Возвращает слова в падеже, зависимом от заданного числа
+        /// </summary>
+        /// <param name="number">Число от которого зависит выбранное слово</param>
+        /// <param name="nominativ">Именительный падеж слова. Например "день"</param>
+        /// <param name="genetiv">Родительный падеж слова. Например "дня"</param>
+        /// <param name="plural">Множественное число слова. Например "дней"</param>
+        /// <returns></returns>
+        public static string DeclensionGenerate(int number, string nominativ, string genetiv, string plural)
         {
-            string input = "";
-
-            do
-            {
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                if (char.IsNumber(keyInfo.KeyChar))
-                {
-                    input = input + keyInfo.KeyChar;
-                    Console.Write(keyInfo.KeyChar);
-                }
-
-                if (keyInfo.Key == ConsoleKey.Enter)
-                {
-                    Console.WriteLine();
-                    break;
-                }
-
-                if (keyInfo.Key == ConsoleKey.Backspace)
-                {
-                    input = input.Substring(0, input.Length - 1);
-                    Console.Write("\b \b");
-                }
-            } while (true);
-
-            return input;
+            var titles = new[] {nominativ, genetiv, plural};
+            var cases = new[] {2, 0, 1, 1, 1, 2};
+            return titles[number % 100 > 4 && number % 100 < 20 ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
         }
     }
 
