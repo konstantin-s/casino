@@ -1,4 +1,5 @@
-﻿using Unity;
+﻿using System;
+using Unity;
 using Prism.Regions;
 using System.Windows;
 using Prism.Ioc;

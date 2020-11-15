@@ -6,10 +6,25 @@
         Title="{Binding Title}" Height="950" Width="925">
 
     <Grid>
+
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
             <CheckBox IsChecked="{Binding IsEnabled}" Content="Can Execute Command" Margin="10" />
             <Button Command="{Binding ExecuteDelegateCommand}" Content="DelegateCommand" Margin="10" />
+
             <TextBlock Text="{Binding UpdateText}" Margin="10" FontSize="22" />
+
+            <StackPanel>
+
+                <Button Content="Cool Button" x:Name="CoolButton" Command="{Binding CoolCommand}" />
+
+                <Button Command="{Binding CoolCommand}" Content="CoolCommand!111" Margin="10" />
+                <ListBox ItemsSource="{Binding CoolList}" />
+            </StackPanel>
+
+            <Label>DBG:</Label>
+            <TextBlock Text="{Binding DebugText}" Margin="10" FontSize="12" />
+            <Label>DBG_END</Label>
+
         </StackPanel>
         <DockPanel LastChildFill="True">
             <StackPanel>
@@ -20,5 +35,27 @@
             </StackPanel>
             <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </DockPanel>
+
+        <Grid x:Name="InputBox" Visibility="{Binding CoolVisibility}">
+            <Grid Background="Black" Opacity="0.5" />
+            <Border
+                MinWidth="250"
+                Background="Orange"
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="0,55,0,55"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Margin="5" Text="Input Box:" FontWeight="Bold" FontFamily="Cambria" />
+                    <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox"
+                             Text="{Binding CoolInputText}" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="YesButton" Margin="5" Content="Yes" Background="{x:Null}" Command="{Binding CoolCommandY}" />
+                        <Button x:Name="NoButton" Margin="5" Content="No" Background="{x:Null}" Command="{Binding CoolCommandN}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
