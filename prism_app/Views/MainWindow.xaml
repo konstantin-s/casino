@@ -3,8 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525">
+        Title="{Binding Title}" Height="950" Width="925">
+
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+            <CheckBox IsChecked="{Binding IsEnabled}" Content="Can Execute Command" Margin="10" />
+            <Button Command="{Binding ExecuteDelegateCommand}" Content="DelegateCommand" Margin="10" />
+            <TextBlock Text="{Binding UpdateText}" Margin="10" FontSize="22" />
+        </StackPanel>
+        <DockPanel LastChildFill="True">
+            <StackPanel>
+                <Button Content="Activate ViewA" Click="Button_Click" />
+                <Button Content="Deactivate ViewA" Click="Button_Click_1" />
+                <Button Content="Activate ViewB" Click="Button_Click_2" />
+                <Button Content="Deactivate ViewB" Click="Button_Click_3" />
+            </StackPanel>
+            <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </DockPanel>
     </Grid>
 </Window>
