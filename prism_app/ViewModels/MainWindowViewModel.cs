@@ -63,6 +63,15 @@ namespace prism_app.ViewModels
             set => SetProperty(ref _debugText, value);
         }
 
+        private AppLog _logger;
+        private string _appLog;
+
+        public string AppLog
+        {
+            get => _appLog;
+            set => SetProperty(ref _appLog, value);
+        }
+
         public DelegateCommand CoolCommand { get; private set; }
         public DelegateCommand CoolCommandY { get; private set; }
         public DelegateCommand CoolCommandN { get; private set; }
@@ -75,9 +84,14 @@ namespace prism_app.ViewModels
         public DelegateCommand DelegateCommandObservesCanExecute { get; private set; }
 
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(AppLog logger)
         {
             DebugText += $"MainWindowViewModel call \n";
+
+            _logger = logger;
+            _logger.SetTrackProp(this, "AppLog");
+            
+            _logger.Log("MainWindowViewModel");
             
             CoolList = new ObservableCollection<string>();
             CoolList.Add("Add @ MainWindowViewModel");

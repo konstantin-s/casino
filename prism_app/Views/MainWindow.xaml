@@ -21,9 +21,29 @@
                 <ListBox ItemsSource="{Binding CoolList}" />
             </StackPanel>
 
+            <Border
+                MinWidth="250"
+                Background="Orange"
+                BorderBrush="Black"
+                BorderThickness="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <StackPanel>
+                    <Label>AppLog:</Label>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto"
+                                  Name="Scroller">
+                        <TextBlock HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   MinWidth="100"
+                                   TextWrapping="Wrap"
+                                   FontSize="10"
+                                   Text="{Binding AppLog}" />
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
             <Label>DBG:</Label>
             <TextBlock Text="{Binding DebugText}" Margin="10" FontSize="12" />
-            <Label>DBG_END</Label>
 
         </StackPanel>
         <DockPanel LastChildFill="True">
