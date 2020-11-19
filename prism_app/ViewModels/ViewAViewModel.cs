@@ -7,8 +7,9 @@ namespace prism_app.ViewModels
 {
     public class ViewAViewModel : BindableBase
     {
-        public ViewAViewModel(AppLog logger)
+        public ViewAViewModel(Game game, AppLog logger)
         {
+            _game = game;
             _logger = logger;
             _logger.Log($@"ViewAViewModel HERE ☺!");
         }
@@ -22,6 +23,7 @@ namespace prism_app.ViewModels
         }
 
         private DelegateCommand _fieldName;
+        private readonly Game _game;
         private AppLog _logger;
 
         public DelegateCommand Identificate =>
@@ -30,6 +32,7 @@ namespace prism_app.ViewModels
         void ExecuteIdentificate()
         {
             _logger.Log("ExecuteIdentificate call");
+            _game.Identificated();
         }
     }
 }

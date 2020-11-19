@@ -19,6 +19,7 @@ namespace prism_app
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<AppLog>();
+            containerRegistry.RegisterSingleton<Game>();
         }
     }
 }

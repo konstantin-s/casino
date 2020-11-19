@@ -5,77 +5,78 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="950" Width="925">
 
-    <Grid>
+    <Grid ShowGridLines="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.75*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="0.25*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Background="Red">
+
             <CheckBox IsChecked="{Binding IsEnabled}" Content="Can Execute Command" Margin="10" />
             <Button Command="{Binding ExecuteDelegateCommand}" Content="DelegateCommand" Margin="10" />
+            <Button Content="Cool Button" x:Name="CoolButton" Command="{Binding CoolCommand}" />
+            <Button Command="{Binding CoolCommand}" Content="CoolCommand!111" Margin="10" />
 
-            <TextBlock Text="{Binding UpdateText}" Margin="10" FontSize="22" />
+            <!-- <StackPanel> -->
+            <!--     <Button Content="Activate ViewA" Click="Button_Click" /> -->
+            <!--     <Button Content="Deactivate ViewA" Click="Button_Click_1" /> -->
+            <!--     <Button Content="Activate ViewB" Click="Button_Click_2" /> -->
+            <!--     <Button Content="Deactivate ViewB" Click="Button_Click_3" /> -->
+            <!-- </StackPanel> -->
 
-            <StackPanel>
-
-                <Button Content="Cool Button" x:Name="CoolButton" Command="{Binding CoolCommand}" />
-
-                <Button Command="{Binding CoolCommand}" Content="CoolCommand!111" Margin="10" />
-                <ListBox ItemsSource="{Binding CoolList}" />
-            </StackPanel>
-
-            <Border
-                MinWidth="250"
-                Background="Orange"
-                BorderBrush="Black"
-                BorderThickness="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-                <StackPanel>
-                    <Label>AppLog:</Label>
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto"
-                                  Name="Scroller">
-                        <TextBlock HorizontalAlignment="Stretch"
-                                   VerticalAlignment="Stretch"
-                                   MinWidth="100"
-                                   TextWrapping="Wrap"
-                                   FontSize="10"
-                                   Text="{Binding AppLog}" />
-                    </ScrollViewer>
-                </StackPanel>
-            </Border>
-            <Label>DBG:</Label>
-            <TextBlock Text="{Binding DebugText}" Margin="10" FontSize="12" />
 
         </StackPanel>
-        <DockPanel LastChildFill="True">
-            <StackPanel>
-                <Button Content="Activate ViewA" Click="Button_Click" />
-                <Button Content="Deactivate ViewA" Click="Button_Click_1" />
-                <Button Content="Activate ViewB" Click="Button_Click_2" />
-                <Button Content="Deactivate ViewB" Click="Button_Click_3" />
-            </StackPanel>
-            <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </DockPanel>
 
-        <Grid x:Name="InputBox" Visibility="{Binding CoolVisibility}">
-            <Grid Background="Black" Opacity="0.5" />
-            <Border
-                MinWidth="250"
-                Background="Orange"
-                BorderBrush="Black"
-                BorderThickness="1"
-                CornerRadius="0,55,0,55"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-                <StackPanel>
-                    <TextBlock Margin="5" Text="Input Box:" FontWeight="Bold" FontFamily="Cambria" />
-                    <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox"
-                             Text="{Binding CoolInputText}" />
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button x:Name="YesButton" Margin="5" Content="Yes" Background="{x:Null}" Command="{Binding CoolCommandY}" />
-                        <Button x:Name="NoButton" Margin="5" Content="No" Background="{x:Null}" Command="{Binding CoolCommandN}" />
+        <StackPanel Grid.Column="1" Grid.Row="0" Background="Pink">
+            <TextBlock Text="{Binding UpdateText}" Margin="10" FontSize="22" />
+            
+            <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+            <ListBox ItemsSource="{Binding CoolList}" />
+            <Grid x:Name="InputBox" Visibility="{Binding CoolVisibility}">
+                <Grid Background="Black" Opacity="0.5" />
+                <Border
+                    MinWidth="250"
+                    Background="Orange"
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    CornerRadius="0,55,0,55"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Margin="5" Text="Input Box:" FontWeight="Bold" FontFamily="Cambria" />
+                        <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox"
+                                 Text="{Binding CoolInputText}" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button x:Name="YesButton" Margin="5" Content="Yes" Background="{x:Null}" Command="{Binding CoolCommandY}" />
+                            <Button x:Name="NoButton" Margin="5" Content="No" Background="{x:Null}" Command="{Binding CoolCommandN}" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </Border>
+                </Border>
+            </Grid>
+
+        </StackPanel>
+
+        <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                      ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                      Background="MediumVioletRed" />
+
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="CornflowerBlue">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <TextBlock HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           MinWidth="100"
+                           TextWrapping="Wrap"
+                           FontSize="10"
+                           Text="{Binding AppLog}" />
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Window>

@@ -3,6 +3,7 @@ using Unity;
 using Prism.Regions;
 using System.Windows;
 using Prism.Ioc;
+using prism_app.ViewModels;
 
 namespace prism_app.Views
 {
@@ -11,55 +12,19 @@ namespace prism_app.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        IContainerExtension _container;
-        IRegionManager _regionManager;
-        IRegion _region;
+        private AppLog _logger;
+        private MainWindowViewModel _vm;
 
-        ViewA _viewA;
-        ViewB _viewB;
-
-        public MainWindow(IContainerExtension container, IRegionManager regionManager)
+        public MainWindow(AppLog logger)
         {
             InitializeComponent();
-            _container = container;
-            _regionManager = regionManager;
 
-            this.Loaded += MainWindow_Loaded;
-        }
+            _logger = logger;
+            _vm = DataContext as MainWindowViewModel;
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            _viewA = _container.Resolve<ViewA>();
-            _viewB = _container.Resolve<ViewB>();
+            _logger.Log($@"StartViewModel HERE ☺!");
 
-            _region = _regionManager.Regions["ContentRegion"];
-
-            _region.Add(_viewA);
-            _region.Add(_viewB);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //activate view a
-            _region.Activate(_viewA);
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            //deactivate view a
-            _region.Deactivate(_viewA);
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            //activate view b
-            _region.Activate(_viewB);
-        }
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            //deactivate view b
-            _region.Deactivate(_viewB);
+            this.Loaded += (sender, args) => _vm.MainWindow_Loaded();
         }
     }
 }

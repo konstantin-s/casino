@@ -3,7 +3,12 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using Prism.Commands;
+using Prism.Events;
+using Prism.Ioc;
 using Prism.Mvvm;
+using Prism.Regions;
+using prism_app.Events;
+using prism_app.Views;
 
 namespace prism_app.ViewModels
 {
@@ -24,9 +29,9 @@ namespace prism_app.ViewModels
             get => _coolVisibility;
             set => SetProperty(ref _coolVisibility, value);
         }
-        
+
         public ObservableCollection<string> CoolList { get; set; }
-        
+
         private string _coolInputText = "";
 
         public string CoolInputText
@@ -83,19 +88,45 @@ namespace prism_app.ViewModels
 
         public DelegateCommand DelegateCommandObservesCanExecute { get; private set; }
 
+        IEventAggregator _eventAggregator;
 
-        public MainWindowViewModel(AppLog logger)
+        IContainerExtension _container;
+        IRegionManager _regionManager;
+        IRegion _region;
+
+        ViewA _viewA;
+        ViewB _viewB;
+        Start _start;
+
+        public MainWindowViewModel(AppLog logger, IEventAggregator ea, IContainerExtension container, IRegionManager regionManager)
         {
-            DebugText += $"MainWindowViewModel call \n";
-
             _logger = logger;
             _logger.SetTrackProp(this, "AppLog");
+
+            _eventAggregator = ea;
+            _container = container;
+            _regionManager = regionManager;
             
-            _logger.Log("MainWindowViewModel");
+            _logger.Log("call " + System.Reflection.MethodBase.GetCurrentMethod().Name);
             
+            ea.GetEvent<GameStateChangeEvent>().Subscribe((payload) =>
+            {
+                _logger.Log($"GameStateChangeEvent {payload}");
+                if (payload == GameState.Identificate)
+                {
+                    _logger.Log($"☺ activating ViewA");
+                    _region.Activate(_viewA);
+                }
+                if (payload == GameState.Play)
+                {
+                    _logger.Log($"☺ activating ViewB");
+                    _region.Activate(_viewB);
+                }
+            });
+
             CoolList = new ObservableCollection<string>();
             CoolList.Add("Add @ MainWindowViewModel");
-            
+
             CoolCommand = new DelegateCommand(ExecuteCoolCommand);
             CoolCommandY = new DelegateCommand(ExecuteCoolCommandY);
             CoolCommandN = new DelegateCommand(ExecuteCoolCommandN);
@@ -107,6 +138,22 @@ namespace prism_app.ViewModels
             DelegateCommandObservesCanExecute = new DelegateCommand(Execute).ObservesCanExecute(() => IsEnabled);
 
             ExecuteGenericDelegateCommand = new DelegateCommand<string>(ExecuteGeneric).ObservesCanExecute(() => IsEnabled);
+        }
+
+
+        public void MainWindow_Loaded()
+        {
+            _logger.Log(System.Reflection.MethodBase.GetCurrentMethod().Name +"  @ " + this.GetType().Name);
+            
+            _start = _container.Resolve<Start>();
+            _viewA = _container.Resolve<ViewA>();
+            _viewB = _container.Resolve<ViewB>();
+
+            _region = _regionManager.Regions["ContentRegion"];
+
+            _region.Add(_start);
+            _region.Add(_viewA);
+            _region.Add(_viewB);
         }
 
         private void ExecuteCoolCommand()

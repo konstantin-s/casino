@@ -4,6 +4,8 @@ using prism_app.ViewModels;
 
 namespace prism_app
 {
+    // TODO Переделать
+
     public class AppLog
     {
         private List<string> _entries = new List<string>();

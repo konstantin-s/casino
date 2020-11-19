@@ -7,8 +7,25 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:local="clr-namespace:prism_app.Views"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock Text="View A" FontSize="38" />
+             d:DesignHeight="200" d:DesignWidth="200">
+    <Grid Background="Gainsboro">
+        <Label>ViewA</Label>
+        <Border
+            MinWidth="250"
+            Background="Orange"
+            BorderBrush="Black"
+            BorderThickness="1"
+            CornerRadius="0,55,0,55"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <StackPanel>
+                <TextBlock Text="Представьтесь, пожалуйста:" FontSize="28" />
+                <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         Text="{Binding PlayerName}" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Начать игру" Background="{x:Null}" Command="{Binding Identificate}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

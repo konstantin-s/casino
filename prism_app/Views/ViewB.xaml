@@ -7,6 +7,23 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock Text="View B" FontSize="38" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.75*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="0.25*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="Red">
+            <Grid>
+                <StackPanel>
+                    <Label>ViewB</Label>
+                    <Button Content="кнопка1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Red" Opacity="0.9" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <GridSplitter Grid.Row="1" ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+        <Grid Grid.Row="2" Background="Red">
+            <Button Content="кнопка2" Background="Blue" Opacity="0.9" />
+        </Grid>
     </Grid>
 </UserControl>
