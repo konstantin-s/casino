@@ -1,7 +1,5 @@
 ﻿using Prism.Mvvm;
-using System;
 using Prism.Commands;
-using Prism.Mvvm;
 
 namespace prism_app.ViewModels
 {
@@ -16,7 +14,7 @@ namespace prism_app.ViewModels
             _logger = logger;
             _logger.Log($@"StartViewModel HERE ☺!");
         }
-        
+
         private DelegateCommand _fieldName;
 
         public DelegateCommand Enter =>

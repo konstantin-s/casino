@@ -5,7 +5,6 @@ using System.Windows;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
-using Prism.Mvvm;
 using Prism.Regions;
 using prism_app.Events;
 using prism_app.Views;

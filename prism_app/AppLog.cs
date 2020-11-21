@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using prism_app.ViewModels;
 
 namespace prism_app
@@ -23,7 +24,7 @@ namespace prism_app
 
         public string GetLog()
         {
-            return String.Join("\n", _entries.ToArray());
+            return String.Join("\n", _entries.ToArray().Reverse());
         }
 
         public void SetTrackProp(MainWindowViewModel obj, string propName)

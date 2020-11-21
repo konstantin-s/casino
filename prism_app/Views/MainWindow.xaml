@@ -35,11 +35,14 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="0" Background="Pink">
-            <TextBlock Text="{Binding UpdateText}" Margin="10" FontSize="22" />
+            <Label>UpdateText:</Label>
+            <TextBlock Text="{Binding UpdateText}" Margin="10" FontSize="22" Background="Wheat" />
             
-            <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label>ContentControl:</Label>
+            <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Khaki"/>
 
-            <ListBox ItemsSource="{Binding CoolList}" />
+            <Label>CoolList:</Label>
+            <ListBox ItemsSource="{Binding CoolList}" Background="Bisque"/>
             <Grid x:Name="InputBox" Visibility="{Binding CoolVisibility}">
                 <Grid Background="Black" Opacity="0.5" />
                 <Border
