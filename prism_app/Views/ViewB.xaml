@@ -40,12 +40,10 @@
 
         <StackPanel Grid.Row="0" Background="Pink">
             <TextBlock>
-                <Span>Блок приветствия</Span>
                 Здрасьте,  <Run FontSize="20" FontWeight="Bold" Foreground="Green" Background="Black" Text="{Binding  PlayerName, Mode=OneWay}" /> !
             </TextBlock>
 
             <TextBlock>
-                <Span>Блок описания игры</Span><LineBreak />
                 Угадайте число от <Run Text="{Binding Path=RangeFrom, Mode=OneWay}" Style="{StaticResource HiLit}" />
                 до <Run Text="{Binding RangeTo, Mode=OneWay}" Style="{StaticResource HiLit}" />
                 и выиграйте в <Run Text="{Binding WinMult, Mode=OneWay}" Style="{StaticResource HiLit}" /> раза больше, чем поставили!!
@@ -83,13 +81,12 @@
 
             </UniformGrid>
 
-            <ProgressBar Minimum="0" Maximum="100" Value="50" Height="25"
+            <ProgressBar Minimum="0" Maximum="100" Value="{Binding Progress}" Height="25"
                          Visibility="{Binding IsSpinning, Converter={StaticResource BoolToHiddenConverter}}" />
 
         </StackPanel>
         <GridSplitter Grid.Row="1" ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
         <StackPanel Grid.Row="2" Background="Red">
-            <Label>Блок лога игр</Label>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
                 <ListBox ItemsSource="{Binding GameHistory}">

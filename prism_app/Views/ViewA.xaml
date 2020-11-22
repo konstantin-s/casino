@@ -7,7 +7,6 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
     <StackPanel Background="Gainsboro" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
-        <Label>ViewA</Label>
         <TextBlock Text="Представьтесь, пожалуйста:" FontSize="18" />
         <TextBox MinWidth="250" MaxWidth="250" Background="Aqua"
                  Style="{StaticResource TextBoxInError}"

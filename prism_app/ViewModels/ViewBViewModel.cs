@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows.Controls;
 using prism_app.Validators;
 
@@ -55,8 +56,6 @@ namespace prism_app.ViewModels
 
         private void ValidatePlayerStake()
         {
-            _logger.Log($"ValidatePlayerStake call on {PlayerStake}");
-
             string varName = nameof(PlayerStake);
             ClearErrors(varName);
 
@@ -88,8 +87,6 @@ namespace prism_app.ViewModels
 
         private void ValidatePlayerNumber()
         {
-            _logger.Log($"ValidatePlayerNumber call on {PlayerNumber}");
-
             string varName = nameof(PlayerNumber);
             ClearErrors(varName);
 
@@ -124,11 +121,18 @@ namespace prism_app.ViewModels
         public string PlayerName { get; private set; }
 
         private int _balanceValue;
+        private int _progress;
 
         public int BalanceValue
         {
             get => _balanceValue;
             set => SetProperty(ref _balanceValue, value);
+        }
+
+        public int Progress
+        {
+            get => _progress;
+            set => SetProperty(ref _progress, value);
         }
 
         #endregion
@@ -197,15 +201,7 @@ namespace prism_app.ViewModels
             IsRollAllowed = false;
             IsStakesAllowed = false;
 
-            _game.DoRoll(PlayerNumber, PlayerStake);
-
-            
-            // GameHistory.Add(new GameHistoryItem(1,2,3,4,GameResult.Win,777));
-            
-            BalanceValue = _game.Player.Balance.Value;
-            PlayerStake = _game.Stake;
-            PlayerNumber = _game.Number;
-            IsStakesAllowed = true;
+            StarRolltProgressEmulation();
         }
 
         public ObservableCollection<GameHistoryItem> GameHistory { get; set; }
@@ -233,6 +229,46 @@ namespace prism_app.ViewModels
 
             _logger.Log("ViewBViewModel constructor");
             _logger.Log($"RangeFrom: {RangeFrom}, RangeTo: {RangeTo}, WinMult: {WinMult}");
+        }
+
+        private void StarRolltProgressEmulation()
+        {
+            _logger.Log("StarRolltProgressEmulation call");
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += worker_DoWork;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerCompleted += RollEnded;
+
+            worker.RunWorkerAsync();
+        }
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            IsSpinning = true;
+            for (int i = 0; i < 100; i++)
+            {
+                (sender as BackgroundWorker).ReportProgress(i);
+                Thread.Sleep(10);
+            }
+        }
+
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Progress = e.ProgressPercentage;
+        }
+
+        void RollEnded(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
+        {
+            _game.DoRoll(PlayerNumber, PlayerStake);
+
+            IsSpinning = false;
+            Progress = 0;
+
+            BalanceValue = _game.Player.Balance.Value;
+            PlayerStake = _game.Stake;
+            PlayerNumber = _game.Number;
+            IsStakesAllowed = true;
         }
     }
 }

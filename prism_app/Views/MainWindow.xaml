@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Background="Red">
+        <StackPanel Grid.Row="0" Grid.Column="0" Background="Red" Visibility="Collapsed">
 
             <CheckBox IsChecked="{Binding IsEnabled}" Content="Can Execute Command" Margin="10" />
             <Button Command="{Binding ExecuteDelegateCommand}" Content="DelegateCommand" Margin="10" />
@@ -35,36 +35,36 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="0" Background="Pink">
-            <Label>UpdateText:</Label>
-            <TextBlock Text="{Binding UpdateText}" Margin="10" FontSize="22" Background="Wheat" />
-            
-            <Label>ContentControl:</Label>
-            <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Khaki"/>
-
-            <Label>CoolList:</Label>
-            <ListBox ItemsSource="{Binding CoolList}" Background="Bisque"/>
-            <Grid x:Name="InputBox" Visibility="{Binding CoolVisibility}">
-                <Grid Background="Black" Opacity="0.5" />
-                <Border
-                    MinWidth="250"
-                    Background="Orange"
-                    BorderBrush="Black"
-                    BorderThickness="1"
-                    CornerRadius="0,55,0,55"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-                    <StackPanel>
-                        <TextBlock Margin="5" Text="Input Box:" FontWeight="Bold" FontFamily="Cambria" />
-                        <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox"
-                                 Text="{Binding CoolInputText}" />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button x:Name="YesButton" Margin="5" Content="Yes" Background="{x:Null}" Command="{Binding CoolCommandY}" />
-                            <Button x:Name="NoButton" Margin="5" Content="No" Background="{x:Null}" Command="{Binding CoolCommandN}" />
+            <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Khaki" />
+            <StackPanel Visibility="Collapsed">
+                <Label>UpdateText:</Label>
+                <TextBlock Text="{Binding UpdateText}" Margin="10" FontSize="22" Background="Wheat" />
+            </StackPanel>
+            <StackPanel Visibility="Collapsed">
+                <Label>CoolList:</Label>
+                <ListBox ItemsSource="{Binding CoolList}" Background="Bisque" />
+                <Grid x:Name="InputBox" Visibility="{Binding CoolVisibility}">
+                    <Grid Background="Black" Opacity="0.5" />
+                    <Border
+                        MinWidth="250"
+                        Background="Orange"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        CornerRadius="0,55,0,55"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock Margin="5" Text="Input Box:" FontWeight="Bold" FontFamily="Cambria" />
+                            <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox"
+                                     Text="{Binding CoolInputText}" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="YesButton" Margin="5" Content="Yes" Background="{x:Null}" Command="{Binding CoolCommandY}" />
+                                <Button x:Name="NoButton" Margin="5" Content="No" Background="{x:Null}" Command="{Binding CoolCommandN}" />
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Grid>
-
+                    </Border>
+                </Grid>
+            </StackPanel>
         </StackPanel>
 
         <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"

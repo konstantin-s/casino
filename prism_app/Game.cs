@@ -90,7 +90,7 @@ namespace prism_app
             LastStake = Stake;
             LastResult = result;
 
-            GameHistory.Add(new GameHistoryItem(Number, secretNumber, Stake, _player.Balance.Value, result, winAmount));
+            GameHistory.Insert(0, new GameHistoryItem(Number, secretNumber, Stake, _player.Balance.Value, result, winAmount));
 
             _logger.Log(
                 $"LastPlayerNumber: {LastPlayerNumber}, LastSecretNumber: {LastSecretNumber}, LastStake: {LastStake}, LastResult: {LastResult.ToString()}");
