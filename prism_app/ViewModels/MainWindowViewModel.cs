@@ -118,8 +118,12 @@ namespace prism_app.ViewModels
                 }
                 if (payload == GameState.Play)
                 {
-                    _logger.Log($"☺ activating ViewB");
+                    _logger.Log($"☺ GameState.Play={GameState.Play} activating ViewB");
+                    _viewB = _container.Resolve<ViewB>();
+                    _region.Add(_viewB);
+                    
                     _region.Activate(_viewB);
+                    _logger.Log($"☺ activatED ViewB");
                 }
             });
 
@@ -146,13 +150,11 @@ namespace prism_app.ViewModels
             
             _start = _container.Resolve<Start>();
             _viewA = _container.Resolve<ViewA>();
-            _viewB = _container.Resolve<ViewB>();
 
             _region = _regionManager.Regions["ContentRegion"];
 
             _region.Add(_start);
             _region.Add(_viewA);
-            _region.Add(_viewB);
         }
 
         private void ExecuteCoolCommand()

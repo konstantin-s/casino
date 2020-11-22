@@ -80,6 +80,12 @@
     
     <Compile Include="AppLog.cs" />
     
+    <Compile Include="Balance.cs" />
+    
+    <Compile Include="Constants.cs" />
+    
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    
     <Compile Include="Events\GameStateChangeEvent.cs" />
     
     <Compile Include="Game.cs" />

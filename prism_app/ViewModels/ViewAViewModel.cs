@@ -114,7 +114,7 @@ namespace prism_app.ViewModels
         void ExecuteIdentificate()
         {
             _logger.Log("ExecuteIdentificate call");
-            _game.Identificated();
+            _game.Identificated(PlayerName);
         }
     }
 }
