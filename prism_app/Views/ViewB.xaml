@@ -27,6 +27,9 @@
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Background" Value="Yellow" />
         </Style>
+        <Style x:Key="HiLitS" TargetType="Run" BasedOn="{StaticResource HiLit}">
+            <Setter Property="FontSize" Value="15" />
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -88,15 +91,24 @@
         <StackPanel Grid.Row="2" Background="Red">
             <Label>Блок лога игр</Label>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                           MinWidth="100"
-                           TextWrapping="Wrap"
-                           FontSize="10">
-                    Ставка 1р. на число 12. Выпало 15. Выигрыш!<LineBreak />
-                    Ставка 1р. на число 12. Выпало 15. Выигрыш!<LineBreak />
-                    Ставка 1р. на число 12. Выпало 15. Выигрыш!<LineBreak />
-                    Ставка 1р. на число 12. Выпало 15. Выигрыш!<LineBreak />
-                </TextBlock>
+
+                <ListBox ItemsSource="{Binding GameHistory}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>
+                                    [<Run Text="{Binding Path=DT, Mode=OneWay}" />]
+                                    Выпало: <Run Text="{Binding Path=SecretNumber, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                    Ставка на: <Run Text="{Binding Path=Number, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                    Ставка: <Run Text="{Binding Path=Stake, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                    Баланс: <Run Text="{Binding Path=BalanceValue, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                    Результат: <Run Text="{Binding Path=Result, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                    Выигрыш: <Run Text="{Binding Path=WinAmount, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </ScrollViewer>
         </StackPanel>
     </Grid>

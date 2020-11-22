@@ -14,10 +14,12 @@ namespace prism_app.Validators
                 return new ValidationResult(false, "Имя не может быть пустым");
             }
 
-            Regex rgx = new Regex(@"^[a-zA-Zа-яА-Я0-9_\-\.]+$");
+            stringData = stringData.Trim();
+            
+            Regex rgx = new Regex(@"^[a-zA-Zа-яА-Я0-9_\-\.\s☺]+$");
             if (!rgx.IsMatch(stringData))
             {
-                return new ValidationResult(false, "Имя должно состоять из букв, цифр");
+                return new ValidationResult(false, "Имя должно состоять из букв, цифр, знаков _-☺");
             }
 
             if (stringData.Length < 2)

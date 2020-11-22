@@ -6,6 +6,7 @@
         public const int PlayerNameMin = 2;
         public const int RangeFrom = 1;
         public const int RangeTo = 6;
-        public const int StartBalance = 10;
+        public const int StartBalance = 30;
+        public const int StakeMin = 1;
     }
 }

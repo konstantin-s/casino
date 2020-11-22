@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
-using Unity;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Prism.Regions;
-using System.Windows;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -56,19 +55,89 @@ namespace prism_app
             _eventAggregator.GetEvent<GameStateChangeEvent>().Publish(State);
         }
 
-        public void DoRoll()
+        public int Stake { get; set; }
+        public int Number { get; set; }
+
+        public int LastStake = 0;
+        public int LastSecretNumber = 0;
+        public int LastPlayerNumber = 0;
+        public GameResult LastResult;
+
+        public void DoRoll(int playerNumber, int playerStake)
         {
+            Number = playerNumber;
+            Stake = playerStake;
+
             _logger.Log("Game DoRoll call");
+
+            _player.Balance.Value -= Stake;
+
+            GameResult result = GameResult.Loose;
+            int winAmount = 0;
+
+            var secretNumber = new Random().Next(Constants.RangeFrom, Constants.RangeTo);
+
+            if (secretNumber == Number)
+            {
+                winAmount = Stake * Constants.WinMult;
+                result = GameResult.Win;
+            }
+
+            _player.Balance.Value += winAmount;
+
+            LastSecretNumber = secretNumber;
+            LastPlayerNumber = Number;
+            LastStake = Stake;
+            LastResult = result;
+
+            GameHistory.Add(new GameHistoryItem(Number, secretNumber, Stake, _player.Balance.Value, result, winAmount));
+
+            _logger.Log(
+                $"LastPlayerNumber: {LastPlayerNumber}, LastSecretNumber: {LastSecretNumber}, LastStake: {LastStake}, LastResult: {LastResult.ToString()}");
+
+            if (Stake > _player.Balance.Value)
+            {
+                Stake = 0;
+            }
+
+            Number = 0;
+
+            _logger.Log($"Game DoRoll end. Stake: {Stake}, Number: {Number}");
         }
 
         public bool CanStake()
         {
-            return true;
+            return _player.Balance.Value > 0;
         }
 
         public bool CanRoll()
         {
-            return true;
+            return Stake > 0 && Number > 0;
+        }
+
+        public ObservableCollection<GameHistoryItem> GameHistory = new ObservableCollection<GameHistoryItem>(); 
+    }
+
+
+    public readonly struct GameHistoryItem
+    {
+        public string DT { get; }
+        public int Number { get; }
+        public int SecretNumber { get; }
+        public int Stake { get; }
+        public int BalanceValue { get; }
+        public GameResult Result { get; }
+        public int WinAmount { get; }
+
+        public GameHistoryItem(int number, int secretNumber, int stake, int balanceValue, GameResult result, int winAmount)
+        {
+            DT = DateTime.Now.ToString("u");
+            Number = number;
+            SecretNumber = secretNumber;
+            Stake = stake;
+            BalanceValue = balanceValue;
+            Result = result;
+            WinAmount = winAmount;
         }
     }
 
@@ -78,5 +147,11 @@ namespace prism_app
         Identificate,
         Play,
         End
+    }
+
+    public enum GameResult
+    {
+        Win,
+        Loose
     }
 }
