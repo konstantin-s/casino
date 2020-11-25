@@ -103,6 +103,18 @@ namespace prism_app
             Number = 0;
 
             _logger.Log($"Game DoRoll end. Stake: {Stake}, Number: {Number}");
+
+            if (_player.Balance.Value <= 0)
+            {
+                EndGame();
+            }
+        }
+
+        public void EndGame()
+        {
+            _logger.Log($"Игра окончена: на балансе {_player.Balance.Value} рублей");
+            State = GameState.End;
+            _eventAggregator.GetEvent<GameStateChangeEvent>().Publish(State);
         }
 
         public bool CanStake()
@@ -115,7 +127,16 @@ namespace prism_app
             return Stake > 0 && Number > 0;
         }
 
-        public ObservableCollection<GameHistoryItem> GameHistory = new ObservableCollection<GameHistoryItem>(); 
+        public ObservableCollection<GameHistoryItem> GameHistory = new ObservableCollection<GameHistoryItem>();
+
+        public void Restart()
+        {
+            //Todo Переделать чтобы событие не перезагружало вид, а только рестартовало игру на этом виде
+            Player.Balance.Value = Constants.StartBalance;
+            GameHistory.Clear();
+            State = GameState.Play;
+            _eventAggregator.GetEvent<GameStateChangeEvent>().Publish(State);
+        }
     }
 
 

@@ -9,6 +9,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Controls;
+using Prism.Events;
+using prism_app.Events;
 using prism_app.Validators;
 
 namespace prism_app.ViewModels
@@ -169,6 +171,7 @@ namespace prism_app.ViewModels
         private bool _isStakesAllowed;
         private bool _isRollAllowed;
         private bool _isSpinning;
+        private bool _isGameEnded = false;
 
         public bool IsStakesAllowed
         {
@@ -190,9 +193,25 @@ namespace prism_app.ViewModels
             set => SetProperty(ref _isSpinning, value);
         }
 
+        public bool IsGameNotEnded => !IsGameEnded;
+
+        public bool IsGameEnded
+        {
+            get => _isGameEnded;
+            set
+            {
+                bool changed = SetProperty(ref _isGameEnded, value);
+                if (changed)
+                {
+                    RaisePropertyChanged(nameof(IsGameNotEnded));
+                }
+            }
+        }
+
         #endregion
 
         public DelegateCommand DoRoll { get; private set; }
+        public DelegateCommand EndedGameRestart { get; private set; }
 
         void ExecuteDoRoll()
         {
@@ -203,16 +222,24 @@ namespace prism_app.ViewModels
 
             StarRolltProgressEmulation();
         }
+        void ExecuteEndedGameRestart()
+        {
+            _logger.Log("Command ExecuteEndedGameRestart call");
+            _game.Restart();
+
+        }
 
         public ObservableCollection<GameHistoryItem> GameHistory { get; set; }
 
         private readonly Game _game;
         private readonly AppLog _logger;
+        private readonly IEventAggregator _eventAggregator;
 
-        public ViewBViewModel(Game game, AppLog logger)
+        public ViewBViewModel(Game game, AppLog logger, IEventAggregator ea)
         {
             _game = game;
             _logger = logger;
+            _eventAggregator = ea;
 
             PlayerName = _game.Player.Name;
             BalanceValue = _game.Player.Balance.Value;
@@ -223,9 +250,27 @@ namespace prism_app.ViewModels
             WinMult = Constants.WinMult.ToString();
 
             DoRoll = new DelegateCommand(ExecuteDoRoll);
+            EndedGameRestart = new DelegateCommand(ExecuteEndedGameRestart);
 
             IsStakesAllowed = _game.CanStake();
             IsRollAllowed = _game.CanRoll();
+
+
+            ea.GetEvent<GameStateChangeEvent>().Subscribe((payload) =>
+            {
+                _logger.Log($"GameStateChangeEvent in ViewBViewModel with {payload}");
+                if (payload == GameState.Play)
+                {
+                    _logger.Log($"☺ IsGameEnded false");
+                    IsGameEnded = false;
+                }
+
+                if (payload == GameState.End)
+                {
+                    _logger.Log($"☺ IsGameEnded true");
+                    IsGameEnded = true;
+                }
+            });
 
             _logger.Log("ViewBViewModel constructor");
             _logger.Log($"RangeFrom: {RangeFrom}, RangeTo: {RangeTo}, WinMult: {WinMult}");

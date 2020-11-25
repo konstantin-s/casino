@@ -52,8 +52,14 @@
             <TextBlock>
                 Ваш баланс: <Run Text="{Binding BalanceValue, Mode=OneWay}" Style="{StaticResource HiLit}" /> рублей
             </TextBlock>
-
-            <UniformGrid Rows="1" Columns="3" IsEnabled="{Binding IsStakesAllowed}">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                        Visibility="{Binding IsGameEnded, Converter={StaticResource BoolToHiddenConverter}}">
+                <TextBlock FontSize="20">Игра окончена - денег нет!</TextBlock>
+                <TextBlock FontSize="15">Можно начать всё заново</TextBlock>
+                <Button Style="{StaticResource ButtonGood}" Command="{Binding EndedGameRestart}">Начать всё заново!</Button>
+            </StackPanel>
+            <UniformGrid Rows="1" Columns="3" IsEnabled="{Binding IsStakesAllowed}"
+                         Visibility="{Binding IsGameNotEnded, Converter={StaticResource BoolToHiddenConverter}}">
                 <StackPanel Orientation="Vertical">
 
                     <Label>Ваша ставка:</Label>
