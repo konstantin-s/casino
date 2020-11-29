@@ -3,75 +3,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="950" Width="925">
+        Title="{Binding Title}" Height="500" Width="800">
 
     <Grid ShowGridLines="False">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.75*" />
+            <RowDefinition Height="0.9*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="0.25*" />
+            <RowDefinition Height="0.1*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.25*" />
+            <ColumnDefinition Width="0.05*" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.05*" />
         </Grid.ColumnDefinitions>
 
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Background="Red" Visibility="Collapsed">
-
-            <CheckBox IsChecked="{Binding IsEnabled}" Content="Can Execute Command" Margin="10" />
-            <Button Command="{Binding ExecuteDelegateCommand}" Content="DelegateCommand" Margin="10" />
-            <Button Content="Cool Button" x:Name="CoolButton" Command="{Binding CoolCommand}" />
-            <Button Command="{Binding CoolCommand}" Content="CoolCommand!111" Margin="10" />
-
-            <!-- <StackPanel> -->
-            <!--     <Button Content="Activate ViewA" Click="Button_Click" /> -->
-            <!--     <Button Content="Deactivate ViewA" Click="Button_Click_1" /> -->
-            <!--     <Button Content="Activate ViewB" Click="Button_Click_2" /> -->
-            <!--     <Button Content="Deactivate ViewB" Click="Button_Click_3" /> -->
-            <!-- </StackPanel> -->
-
-
-        </StackPanel>
-
-        <StackPanel Grid.Column="1" Grid.Row="0" Background="Pink">
-            <ContentControl prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Khaki" />
-            <StackPanel Visibility="Collapsed">
-                <Label>UpdateText:</Label>
-                <TextBlock Text="{Binding UpdateText}" Margin="10" FontSize="22" Background="Wheat" />
-            </StackPanel>
-            <StackPanel Visibility="Collapsed">
-                <Label>CoolList:</Label>
-                <ListBox ItemsSource="{Binding CoolList}" Background="Bisque" />
-                <Grid x:Name="InputBox" Visibility="{Binding CoolVisibility}">
-                    <Grid Background="Black" Opacity="0.5" />
-                    <Border
-                        MinWidth="250"
-                        Background="Orange"
-                        BorderBrush="Black"
-                        BorderThickness="1"
-                        CornerRadius="0,55,0,55"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                        <StackPanel>
-                            <TextBlock Margin="5" Text="Input Box:" FontWeight="Bold" FontFamily="Cambria" />
-                            <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox"
-                                     Text="{Binding CoolInputText}" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button x:Name="YesButton" Margin="5" Content="Yes" Background="{x:Null}" Command="{Binding CoolCommandY}" />
-                                <Button x:Name="NoButton" Margin="5" Content="No" Background="{x:Null}" Command="{Binding CoolCommandN}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </StackPanel>
-        </StackPanel>
+        <ContentControl Grid.Column="1" Grid.Row="0" Background="Pink" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        prism:RegionManager.RegionName="ContentRegion" />
 
         <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                       ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                       Background="MediumVioletRed" />
 
-        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="CornflowerBlue">
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Background="CornflowerBlue">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <TextBlock HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"

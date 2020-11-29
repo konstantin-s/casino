@@ -13,12 +13,12 @@ namespace prism_app.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Жёванное казино";
+        private string _title = "";
 
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
 
         private Visibility _coolVisibility = System.Windows.Visibility.Collapsed;
@@ -92,12 +92,13 @@ namespace prism_app.ViewModels
         IContainerExtension _container;
         IRegionManager _regionManager;
         IRegion _region;
+        Game _game;
 
         ViewA _viewA;
         ViewB _viewB;
         Start _start;
 
-        public MainWindowViewModel(AppLog logger, IEventAggregator ea, IContainerExtension container, IRegionManager regionManager)
+        public MainWindowViewModel(AppLog logger, IEventAggregator ea, IContainerExtension container, IRegionManager regionManager, Game game)
         {
             _logger = logger;
             _logger.SetTrackProp(this, "AppLog");
@@ -105,9 +106,12 @@ namespace prism_app.ViewModels
             _eventAggregator = ea;
             _container = container;
             _regionManager = regionManager;
-            
+            _game = game;
+
+            Title = _game.GetTitle();
+
             _logger.Log("call " + System.Reflection.MethodBase.GetCurrentMethod().Name);
-            
+
             ea.GetEvent<GameStateChangeEvent>().Subscribe((payload) =>
             {
                 _logger.Log($"GameStateChangeEvent {payload}");
@@ -116,12 +120,13 @@ namespace prism_app.ViewModels
                     _logger.Log($"☺ activating ViewA");
                     _region.Activate(_viewA);
                 }
+
                 if (payload == GameState.Play)
                 {
                     _logger.Log($"☺ GameState.Play={GameState.Play} activating ViewB");
                     _viewB = _container.Resolve<ViewB>();
                     _region.Add(_viewB);
-                    
+
                     _region.Activate(_viewB);
                     _logger.Log($"☺ activatED ViewB");
                 }
@@ -146,8 +151,8 @@ namespace prism_app.ViewModels
 
         public void MainWindow_Loaded()
         {
-            _logger.Log(System.Reflection.MethodBase.GetCurrentMethod().Name +"  @ " + this.GetType().Name);
-            
+            _logger.Log(System.Reflection.MethodBase.GetCurrentMethod().Name + "  @ " + this.GetType().Name);
+
             _start = _container.Resolve<Start>();
             _viewA = _container.Resolve<ViewA>();
 
@@ -201,7 +206,7 @@ namespace prism_app.ViewModels
             // NoButton Clicked! Let's hide our InputBox.
             CoolVisibility = System.Windows.Visibility.Collapsed;
             CoolInputText = "";
-            
+
             // Clear InputBox.
             // InputTextBox.Text = String.Empty;
         }

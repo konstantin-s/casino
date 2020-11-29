@@ -7,11 +7,22 @@ namespace prism_app.ViewModels
     {
         private readonly Game _game;
         private AppLog _logger;
+        
+        private string _title = "";
+
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
 
         public StartViewModel(Game game, AppLog logger)
         {
             _game = game;
             _logger = logger;
+            
+            Title = _game.GetTitle();
+            
             _logger.Log($@"StartViewModel HERE ☺!");
         }
 

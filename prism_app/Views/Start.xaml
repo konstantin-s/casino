@@ -8,8 +8,10 @@
              xmlns:local="clr-namespace:prism_app.Views"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel VerticalAlignment="Top" Background="Aquamarine">
-        <TextBlock TextAlignment="Center" Background="Azure" Margin="0 40 0 0 ">Добро пожаловать в Жёванное казино</TextBlock>
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Background="Aquamarine">
+        <TextBlock TextAlignment="Center" Background="Azure" Margin="20 40 20 40 " FontSize="15">
+            Добро пожаловать в <Run FontSize="25" Text="{Binding Title}" />
+        </TextBlock>
         <Button Margin="0 30 0 30" Width="100" Command="{Binding Enter}">Войти</Button>
     </StackPanel>
 </UserControl>

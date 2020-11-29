@@ -147,6 +147,11 @@ namespace prism_app
         {
             return playerNumber <= Constants.RangeTo && playerNumber >= Constants.RangeFrom;
         }
+
+        public string GetTitle()
+        {
+            return Constants.GameTitle;
+        }
     }
 
 

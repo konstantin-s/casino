@@ -15,16 +15,16 @@ namespace prism_app.Validators
             }
 
             stringData = stringData.Trim();
-            
+
             Regex rgx = new Regex(@"^[a-zA-Zа-яА-Я0-9_\-\.\s☺]+$");
             if (!rgx.IsMatch(stringData))
             {
                 return new ValidationResult(false, "Имя должно состоять из букв, цифр, знаков _-☺");
             }
 
-            if (stringData.Length < 2)
+            if (stringData.Length < Constants.PlayerNameMin)
             {
-                return new ValidationResult(false, "Имя должно быть не короче 2 символов");
+                return new ValidationResult(false, $"Имя должно быть не короче {Constants.PlayerNameMin} символов");
             }
 
             if (stringData.Length > 33)
