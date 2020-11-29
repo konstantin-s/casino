@@ -137,6 +137,16 @@ namespace prism_app
             State = GameState.Play;
             _eventAggregator.GetEvent<GameStateChangeEvent>().Publish(State);
         }
+
+        public bool IsStakeAllowed(int playerStake)
+        {
+            return playerStake <= _player.Balance.Value && playerStake > Constants.StakeMin;
+        }
+
+        public bool IsNumberAllowed(int playerNumber)
+        {
+            return playerNumber <= Constants.RangeTo && playerNumber >= Constants.RangeFrom;
+        }
     }
 
 

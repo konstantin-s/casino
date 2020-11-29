@@ -11,7 +11,8 @@
                 <Border BorderBrush="Red" BorderThickness="3">
                     <AdornedElementPlaceholder x:Name="placeholder" />
                 </Border>
-                <TextBlock FontSize="11" FontStyle="Italic" Foreground="Red"
+                <TextBlock TextWrapping="Wrap" FontSize="11" FontStyle="Italic" Foreground="Red" HorizontalAlignment="Stretch" 
+                           MaxWidth="{Binding ElementName=placeholder, Path=AdornedElement.RenderSize.Width}"
                            Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
             </StackPanel>
         </ControlTemplate>

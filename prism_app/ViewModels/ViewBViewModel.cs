@@ -71,20 +71,18 @@ namespace prism_app.ViewModels
             }
             catch (FormatException)
             {
-                AddError(varName, "это не число");
+                AddError(varName, "укажите ставку");
             }
 
-            if (PlayerStake > _game.Player.Balance.Value)
+            if (_playerStake > _game.Player.Balance.Value)
             {
                 AddError(varName, "на балансе столько нет");
             }
 
-            if (PlayerStake < Constants.StakeMin)
+            if (_playerStake < Constants.StakeMin)
             {
                 AddError(varName, $"не может быть менее {Constants.StakeMin}");
             }
-
-            IsRollAllowed = !HasErrors;
         }
 
         private void ValidatePlayerNumber()
@@ -102,15 +100,13 @@ namespace prism_app.ViewModels
             }
             catch (FormatException)
             {
-                AddError(varName, "это не число");
+                AddError(varName, "укажите номер");
             }
 
-            if (PlayerNumber > Constants.RangeTo || PlayerNumber < Constants.RangeFrom)
+            if (_playerNumber > Constants.RangeTo || _playerNumber < Constants.RangeFrom)
             {
                 AddError(varName, $"число должно быть от {Constants.RangeFrom} до {Constants.RangeTo}");
             }
-
-            IsRollAllowed = !HasErrors;
         }
 
         #endregion
@@ -144,23 +140,27 @@ namespace prism_app.ViewModels
         private int _playerStake;
         private int _playerNumber;
 
-        public int PlayerStake
+        public string PlayerStake
         {
-            get => _playerStake;
+            get => _playerStake == 0 ? "" : _playerStake.ToString();
             set
             {
-                SetProperty(ref _playerStake, value);
+                Int32.TryParse(value, out int toIntVal);
+                SetProperty(ref _playerStake, toIntVal);
                 ValidatePlayerStake();
+                ValidateRollAllowedOrNot();
             }
         }
 
-        public int PlayerNumber
+        public string PlayerNumber
         {
-            get => _playerNumber;
+            get => _playerNumber == 0 ? "" : _playerNumber.ToString();
             set
             {
-                SetProperty(ref _playerNumber, value);
+                Int32.TryParse(value, out int toIntVal);
+                SetProperty(ref _playerNumber, toIntVal);
                 ValidatePlayerNumber();
+                ValidateRollAllowedOrNot();
             }
         }
 
@@ -184,6 +184,11 @@ namespace prism_app.ViewModels
         {
             get => _isRollAllowed;
             set => SetProperty(ref _isRollAllowed, value);
+        }
+
+        void ValidateRollAllowedOrNot()
+        {
+            IsRollAllowed = !HasErrors && _game.IsStakeAllowed(_playerStake) && _game.IsNumberAllowed(_playerNumber);
         }
 
 
@@ -222,11 +227,11 @@ namespace prism_app.ViewModels
 
             StarRolltProgressEmulation();
         }
+
         void ExecuteEndedGameRestart()
         {
             _logger.Log("Command ExecuteEndedGameRestart call");
             _game.Restart();
-
         }
 
         public ObservableCollection<GameHistoryItem> GameHistory { get; set; }
@@ -305,14 +310,14 @@ namespace prism_app.ViewModels
 
         void RollEnded(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
         {
-            _game.DoRoll(PlayerNumber, PlayerStake);
+            _game.DoRoll(_playerNumber, _playerStake);
 
             IsSpinning = false;
             Progress = 0;
 
             BalanceValue = _game.Player.Balance.Value;
-            PlayerStake = _game.Stake;
-            PlayerNumber = _game.Number;
+            PlayerStake = _game.Stake.ToString();
+            PlayerNumber = _game.Number.ToString();
             IsStakesAllowed = true;
         }
     }

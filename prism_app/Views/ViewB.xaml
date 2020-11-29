@@ -9,17 +9,14 @@
     <UserControl.Resources>
         <Style x:Key="UserGameParams" TargetType="TextBox">
             <Setter Property="MaxLength" Value="20" />
-            <Setter Property="MaxWidth" Value="100" />
-            <Setter Property="MinWidth" Value="100" />
             <Setter Property="TextAlignment" Value="Right" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Margin" Value="0 0 0 15" />
         </Style>
         <Style x:Key="ButtonGood" TargetType="Button">
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Background" Value="Green" />
-            <Setter Property="Margin" Value="0 0 0 15" />
         </Style>
         <Style x:Key="HiLit" TargetType="Run">
             <Setter Property="FontSize" Value="20" />
@@ -58,9 +55,9 @@
                 <TextBlock FontSize="15">Можно начать всё заново</TextBlock>
                 <Button Style="{StaticResource ButtonGood}" Command="{Binding EndedGameRestart}">Начать всё заново!</Button>
             </StackPanel>
-            <UniformGrid Rows="1" Columns="3" IsEnabled="{Binding IsStakesAllowed}"
+            <UniformGrid Rows="1"  IsEnabled="{Binding IsStakesAllowed}"
                          Visibility="{Binding IsGameNotEnded, Converter={StaticResource BoolToHiddenConverter}}">
-                <StackPanel Orientation="Vertical">
+                <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="10">
 
                     <Label>Ваша ставка:</Label>
 
@@ -71,7 +68,7 @@
                     </TextBox>
 
                 </StackPanel>
-                <StackPanel Orientation="Vertical">
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="10">
                     <Label>Число, на которое ставите:</Label>
                     <TextBox Style="{StaticResource UserGameParams}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
                         <TextBox.Text>
@@ -80,10 +77,11 @@
                     </TextBox>
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                    <Button Style="{StaticResource ButtonGood}" Command="{Binding DoRoll}"
+                <Grid Grid.Column="2"    Margin="10">
+                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonGood}" 
+                            Command="{Binding DoRoll}"
                             IsEnabled="{Binding IsRollAllowed}" Content="Играть" />
-                </StackPanel>
+                </Grid>
 
             </UniformGrid>
 
