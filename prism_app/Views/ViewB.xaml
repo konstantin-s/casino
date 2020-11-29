@@ -90,7 +90,7 @@
 
         </StackPanel>
         <GridSplitter Grid.Row="1" ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-        <StackPanel Grid.Row="2" Background="Red">
+        <StackPanel Grid.Row="2" Background="Azure">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
                 <ListBox ItemsSource="{Binding GameHistory}">

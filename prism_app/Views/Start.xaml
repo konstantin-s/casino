@@ -6,12 +6,59 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:local="clr-namespace:prism_app.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Background="Aquamarine">
-        <TextBlock TextAlignment="Center" Background="Azure" Margin="20 40 20 40 " FontSize="15">
-            Добро пожаловать в <Run FontSize="25" Text="{Binding Title}" />
-        </TextBlock>
-        <Button Margin="0 30 0 30" Width="100" Command="{Binding Enter}">Войти</Button>
-    </StackPanel>
+
+    <materialDesign:Card
+        Background="#03a9f4"
+        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+        Padding="0"
+        Width="400"
+        Height="300">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.4*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0.4*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0.2*" />
+            </Grid.RowDefinitions>
+            <TextBlock
+
+                Grid.Row="0"
+                Margin="16 0 16 0"
+                TextAlignment="Center"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{DynamicResource MaterialDesignHeadline5TextBlock}">
+                <Run FontSize="25" Text="{Binding Title}" />
+            </TextBlock>
+            <Separator
+                Grid.Row="1"
+                Style="{DynamicResource MaterialDesignLightSeparator}" />
+            <TextBlock
+                Grid.Row="2"
+                Margin="16 0 16 0"
+                TextAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Style="{DynamicResource MaterialDesignBody2TextBlock}">
+                Добро пожаловать!
+            </TextBlock>
+            <Separator
+                Grid.Row="3"
+                Style="{DynamicResource MaterialDesignLightSeparator}" />
+
+            <Button Grid.Row="4"
+                    Style="{DynamicResource MaterialDesignRaisedDarkButton}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="16 0 16 0"
+                    Width="100" Command="{Binding Enter}">
+                Войти
+            </Button>
+
+        </Grid>
+    </materialDesign:Card>
 </UserControl>
