@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:localConv="clr-namespace:prism_app.Converters">
+    <ControlTemplate x:Key="ValidationTemplate">
+        <StackPanel Orientation="Vertical">
+            <Border BorderBrush="Red" BorderThickness="3">
+                <AdornedElementPlaceholder x:Name="placeholder" />
+            </Border>
+            <TextBlock TextWrapping="Wrap" FontSize="11" FontStyle="Italic" Foreground="Red" HorizontalAlignment="Stretch"
+                       MaxWidth="{Binding ElementName=placeholder, Path=AdornedElement.RenderSize.Width}"
+                       Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
+        </StackPanel>
+    </ControlTemplate>
+
+    <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)/ErrorContent}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <localConv:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Visible" FalseValue="Hidden" />
+</ResourceDictionary>

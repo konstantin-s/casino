@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -55,9 +56,9 @@
                 <TextBlock FontSize="15">Можно начать всё заново</TextBlock>
                 <Button Style="{StaticResource ButtonGood}" Command="{Binding EndedGameRestart}">Начать всё заново!</Button>
             </StackPanel>
-            <UniformGrid Rows="1"  IsEnabled="{Binding IsStakesAllowed}"
+            <UniformGrid Rows="1" IsEnabled="{Binding IsStakesAllowed}"
                          Visibility="{Binding IsGameNotEnded, Converter={StaticResource BoolToHiddenConverter}}">
-                <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="10">
+                <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
 
                     <Label>Ваша ставка:</Label>
 
@@ -68,7 +69,7 @@
                     </TextBox>
 
                 </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="10">
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10">
                     <Label>Число, на которое ставите:</Label>
                     <TextBox Style="{StaticResource UserGameParams}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
                         <TextBox.Text>
@@ -77,10 +78,17 @@
                     </TextBox>
                 </StackPanel>
 
-                <Grid Grid.Column="2"    Margin="10">
-                    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ButtonGood}" 
-                            Command="{Binding DoRoll}"
-                            IsEnabled="{Binding IsRollAllowed}" Content="Играть" />
+                <Grid Grid.Column="2" Margin="10">
+                    <Button
+                        Style="{DynamicResource MaterialDesignRaisedDarkButton}"
+                        Height="50"
+                        Command="{Binding DoRoll}"
+                        IsEnabled="{Binding IsRollAllowed}"
+                        materialDesign:ButtonAssist.CornerRadius="25"
+                        ToolTip="☻">
+                        <TextBlock
+                            Text="Вращать барабан!" />
+                    </Button>
                 </Grid>
 
             </UniformGrid>
@@ -90,27 +98,24 @@
 
         </StackPanel>
         <GridSplitter Grid.Row="1" ShowsPreview="False" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-        <StackPanel Grid.Row="2" Background="Azure">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-
-                <ListBox ItemsSource="{Binding GameHistory}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock>
-                                    [<Run Text="{Binding Path=DT, Mode=OneWay}" />]
-                                    Выпало: <Run Text="{Binding Path=SecretNumber, Mode=OneWay}" Style="{StaticResource HiLitS}" />
-                                    Ставка на: <Run Text="{Binding Path=Number, Mode=OneWay}" Style="{StaticResource HiLitS}" />
-                                    Ставка: <Run Text="{Binding Path=Stake, Mode=OneWay}" Style="{StaticResource HiLitS}" />
-                                    Баланс: <Run Text="{Binding Path=BalanceValue, Mode=OneWay}" Style="{StaticResource HiLitS}" />
-                                    Результат: <Run Text="{Binding Path=Result, Mode=OneWay}" Style="{StaticResource HiLitS}" />
-                                    Выигрыш: <Run Text="{Binding Path=WinAmount, Mode=OneWay}" Style="{StaticResource HiLitS}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ScrollViewer>
-        </StackPanel>
+        <Grid Grid.Row="2" Background="Linen">
+            <ListBox ItemsSource="{Binding GameHistory}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>
+                                [<Run Text="{Binding Path=DT, Mode=OneWay}" />]
+                                Выпало: <Run Text="{Binding Path=SecretNumber, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                Ставка на: <Run Text="{Binding Path=Number, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                Ставка: <Run Text="{Binding Path=Stake, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                Баланс: <Run Text="{Binding Path=BalanceValue, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                Результат: <Run Text="{Binding Path=Result, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                                Выигрыш: <Run Text="{Binding Path=WinAmount, Mode=OneWay}" Style="{StaticResource HiLitS}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
     </Grid>
 </UserControl>

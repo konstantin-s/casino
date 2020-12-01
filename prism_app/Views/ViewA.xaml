@@ -5,23 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
-    <StackPanel Background="Gainsboro" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock Text="Представьтесь, пожалуйста:" FontSize="18" />
-        <TextBox MinWidth="250" MaxWidth="250" Background="Aqua"
-                 Style="{StaticResource TextBoxInError}"
-                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
-            <TextBox.Text>
-                <Binding Path="PlayerName"
-                         UpdateSourceTrigger="PropertyChanged"
-                         ValidatesOnNotifyDataErrors="True"
-                         Mode="TwoWay" />
-            </TextBox.Text>
-        </TextBox>
-
-        <Button Content="Начать игру" Background="{x:Null}"
-                Command="{Binding DoIdentificate}"
-                IsEnabled="{Binding IsIdentificateAllowed}"
-                Margin="0 20 0 0" />
+    <StackPanel>
+        <materialDesign:Card
+            Background="#03a9f4"
+            Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+            Width="300"
+            Padding="28">
+            <StackPanel>
+                <TextBlock FontSize="16" Margin="0 0 0 15"> Представьтесь, пожалуйста: </TextBlock>
+                <TextBox
+                    x:Name="NameTextBox"
+                    materialDesign:HintAssist.Hint="Ваше имя"
+                    materialDesign:HintAssist.HelperText="☺">
+                    <TextBox.Text>
+                        <Binding Path="PlayerName"
+                                 UpdateSourceTrigger="PropertyChanged"
+                                 ValidatesOnNotifyDataErrors="True"
+                                 Mode="TwoWay" />
+                    </TextBox.Text>
+                </TextBox>
+                <Grid Width="124" Margin="0 20 0 0">
+                    <Button
+                        Style="{DynamicResource MaterialDesignRaisedDarkButton}"
+                        Height="50"
+                        Command="{Binding DoIdentificate}"
+                        IsEnabled="{Binding IsIdentificateAllowed}"
+                        materialDesign:ButtonAssist.CornerRadius="25"
+                        ToolTip="☻">
+                        <TextBlock
+                            Text="Начать игру" />
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </materialDesign:Card>
     </StackPanel>
 </UserControl>

@@ -299,7 +299,7 @@ namespace prism_app.ViewModels
             for (int i = 0; i < 100; i++)
             {
                 (sender as BackgroundWorker).ReportProgress(i);
-                Thread.Sleep(10);
+                Thread.Sleep(6);
             }
         }
 

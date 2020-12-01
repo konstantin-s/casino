@@ -58,6 +58,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     
+    <Page Include="Common.xaml" />
+    
+    <Page Include="MaterialDesignTheme.TextBox.xaml" />
+    
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -153,10 +157,12 @@
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0-ci2273" />
+    <PackageReference Include="MaterialDesignThemes.Wpf" Version="1.0.1" />
     <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
     <PackageReference Condition=" '$(Container)' == 'DryIoc' " Include="Prism.DryIoc" Version="8.0.0.1909" />
     <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
+    <PackageReference Include="ShowMeTheXAML.MSBuild" Version="2.0.0" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

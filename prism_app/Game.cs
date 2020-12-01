@@ -140,7 +140,7 @@ namespace prism_app
 
         public bool IsStakeAllowed(int playerStake)
         {
-            return playerStake <= _player.Balance.Value && playerStake > Constants.StakeMin;
+            return playerStake <= _player.Balance.Value && playerStake >= Constants.StakeMin;
         }
 
         public bool IsNumberAllowed(int playerNumber)
